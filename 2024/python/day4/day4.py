@@ -20,5 +20,27 @@ def part1(lines):
 
   print(horizontal + vertical + diagonal)
 
+def part2(lines):
+  def try_match(grid, i, j):
+    n = len(grid)
+    m = len(grid[0])
+    # assume grid[i][j] == 'A',
+    if i - 1 < 0 or i + 1 >= m or j - 1 < 0 or j + 1 >= n: return False
+    
+    patterns = ['MAS', 'SAM']
+    r = grid[i - 1][j - 1] + grid[i][j] + grid[i + 1][j + 1]
+    l = grid[i + 1][j - 1] + grid[i][j] + grid[i - 1][j + 1]
+
+    if r in patterns and l in patterns: return True
+    else: return False
+
+  grid = [list(lines.strip()) for lines in lines]
+  cnt = 0
+  for i in range(0, len(grid)):
+    for j in range(0, len(grid[0])):
+      if grid[i][j] == 'A':
+        if try_match(grid, i, j):
+            cnt += 1
+  print(cnt)
 with open('input.txt', 'r') as f:
   part1(f.readlines())
